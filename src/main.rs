@@ -75,6 +75,9 @@ mod tests {
         let sample_pairs = get_samples(day);
         for p in sample_pairs {
             let soln = solve(day, p.0);
+            println!("First: {}", soln.first);
+            println!("Second: {}", soln.second);
+            println!("Ground truth: {}", p.1);
             assert!(soln.first == p.1 || soln.second == p.1);
         }
     }
