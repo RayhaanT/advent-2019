@@ -8,5 +8,5 @@ pub fn get_input(day: i32) -> String {
         .join(format!("day{:02}.txt", day));
 
     let f = fs::read_to_string(fp);
-    f.expect("Error loading input file")
+    f.expect("Error loading input file").trim().to_string()
 }
