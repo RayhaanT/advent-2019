@@ -14,6 +14,7 @@ fn solve(day: i32, input: String, release: bool) -> Solution {
         1 => day01::solve(input),
         2 => day02::solve(input, release),
         3 => day03::solve(input),
+        4 => day04::solve(input),
         1..=25 => panic!("This day hasn't been solved"),
         _ => panic!("This day doesn't exist"),
     }
