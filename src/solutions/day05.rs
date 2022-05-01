@@ -1,7 +1,7 @@
 use crate::Solution;
 
 #[allow(dead_code)]
-fn mem_dump(mem: &Vec<i32>) -> String {
+pub fn mem_dump(mem: &Vec<i32>) -> String {
     let mut out: String = String::from("");
     for m in mem {
         out = format!("{}{},", out, m);
@@ -10,7 +10,7 @@ fn mem_dump(mem: &Vec<i32>) -> String {
     out
 }
 
-fn parse_mode(mem: &Vec<i32>, addr: usize, mode: usize, place: i32) -> usize {
+pub fn parse_mode(mem: &Vec<i32>, addr: usize, mode: usize, place: i32) -> usize {
     if match place {
         1 => mode % 10,
         2 => (mode / 10) % 10,
@@ -24,36 +24,35 @@ fn parse_mode(mem: &Vec<i32>, addr: usize, mode: usize, place: i32) -> usize {
     }
 }
 
-fn mode_val(mem: &Vec<i32>, addr: usize, mode: usize, place: i32) -> i32 {
+pub fn mode_val(mem: &Vec<i32>, addr: usize, mode: usize, place: i32) -> i32 {
     mem[parse_mode(&mem, addr, mode, place)]
 }
 
-fn add(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
+pub fn add(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
     let target_addr = parse_mode(&mem, addr, mode, 3);
     mem[target_addr as usize] = mode_val(&mem, addr, mode, 1) + mode_val(&mem, addr, mode, 2);
     addr + 4
 }
 
-fn mul(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
+pub fn mul(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
     let target_addr = parse_mode(&mem, addr, mode, 3);
     mem[target_addr as usize] = mode_val(&mem, addr, mode, 1) * mode_val(&mem, addr, mode, 2);
     addr + 4
 }
 
-fn input(mem: &mut Vec<i32>, addr: usize, the_input: i32) -> usize {
+pub fn input(mem: &mut Vec<i32>, addr: usize, the_input: i32) -> usize {
     let loc = mem[addr + 1];
     mem[loc as usize] = the_input;
     addr + 2
 }
 
-fn output(mem: &mut Vec<i32>, addr: usize, mode: usize, out: &mut i32) -> usize {
+pub fn output(mem: &mut Vec<i32>, addr: usize, mode: usize, out: &mut i32) -> usize {
     *out = mode_val(&mem, addr, mode, 1);
     println!("{}", out);
-    println!("{}", mem_dump(&mem));
     addr + 2
 }
 
-fn jump_if_true(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
+pub fn jump_if_true(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
     let cond = mode_val(&mem, addr, mode, 1);
     if cond != 0 {
         return mode_val(&mem, addr, mode, 2) as usize;
@@ -61,7 +60,7 @@ fn jump_if_true(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
     addr + 3
 }
 
-fn jump_if_false(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
+pub fn jump_if_false(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
     let cond = mode_val(&mem, addr, mode, 1);
     if cond == 0 {
         return mode_val(&mem, addr, mode, 2) as usize;
@@ -69,7 +68,7 @@ fn jump_if_false(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
     addr + 3
 }
 
-fn less_than(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
+pub fn less_than(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
     let target = parse_mode(&mem, addr, mode, 3);
     if mode_val(&mem, addr, mode, 1) < mode_val(&mem, addr, mode, 2) {
         mem[target] = 1;
@@ -78,7 +77,7 @@ fn less_than(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
     addr + 4
 }
 
-fn equals(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
+pub fn equals(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
     let target = parse_mode(&mem, addr, mode, 3);
     if mode_val(&mem, addr, mode, 1) == mode_val(&mem, addr, mode, 2) {
         mem[target] = 1;
