@@ -72,8 +72,9 @@ pub fn less_than(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
     let target = parse_mode(&mem, addr, mode, 3);
     if mode_val(&mem, addr, mode, 1) < mode_val(&mem, addr, mode, 2) {
         mem[target] = 1;
+    } else {
+        mem[target] = 0;
     }
-    mem[target] = 0;
     addr + 4
 }
 
@@ -81,8 +82,9 @@ pub fn equals(mem: &mut Vec<i32>, addr: usize, mode: usize) -> usize {
     let target = parse_mode(&mem, addr, mode, 3);
     if mode_val(&mem, addr, mode, 1) == mode_val(&mem, addr, mode, 2) {
         mem[target] = 1;
+    } else {
+        mem[target] = 0;
     }
-    mem[target] = 0;
     addr + 4
 }
 
