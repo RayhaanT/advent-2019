@@ -56,12 +56,11 @@ fn execute(memory: &mut HashMap<usize, i64>, the_input: i64) -> i64 {
     let mut addr = 0;
     let mut rel_base = 0;
     while addr < memory.len() {
-        // println!("{} {} {}", addr, memory.get(&addr).unwrap(), rel_base);
         let mode = (memory.get(&addr).unwrap() / 100) as usize;
         addr = match memory.get(&addr).unwrap() % 100 {
             1 => add(memory, addr, mode, rel_base),
             2 => mul(memory, addr, mode, rel_base),
-            3 => input(memory, addr, the_input),
+            3 => input(memory, addr, mode, rel_base, the_input),
             4 => output(memory, addr, mode, &mut out, rel_base),
             5 => jump_if_true(memory, addr, mode, rel_base),
             6 => jump_if_false(memory, addr, mode, rel_base),
@@ -108,8 +107,14 @@ pub fn mul(mut mem: &mut HashMap<usize, i64>, addr: usize, mode: usize, rel_base
     addr + 4
 }
 
-pub fn input(mut mem: &mut HashMap<usize, i64>, addr: usize, the_input: i64) -> usize {
-    let loc = fetch_mem(&mut mem, addr + 1);
+pub fn input(
+    mut mem: &mut HashMap<usize, i64>,
+    addr: usize,
+    mode: usize,
+    rel_base: usize,
+    the_input: i64,
+) -> usize {
+    let loc = parse_mode(&mut mem, addr, mode, 1, rel_base);
     set_mem(&mut mem, loc as usize, the_input);
     addr + 2
 }
