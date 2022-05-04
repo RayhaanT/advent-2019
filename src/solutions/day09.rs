@@ -85,11 +85,9 @@ pub fn solve(input: String) -> Solution {
         memory.insert(ind, *val);
     }
 
-    let part_one = execute(&mut memory.clone(), 1);
-
     Solution {
-        first: part_one.to_string(),
-        second: String::from("Incomplete"),
+        first: execute(&mut memory.clone(), 1).to_string(),
+        second: execute(&mut memory.clone(), 2).to_string(),
     }
 }
 
