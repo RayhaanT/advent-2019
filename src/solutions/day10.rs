@@ -71,7 +71,7 @@ pub fn solve(input: String) -> Solution {
                 .or_insert(Vec::new())
                 .push(asteroids[j]);
         }
-        // println!("({}, {}) {}", asteroids[i].0, asteroids[i].1, paths.len());
+
         if paths.len() > most {
             most = paths.len();
             most_paths = paths;
@@ -92,18 +92,6 @@ pub fn solve(input: String) -> Solution {
                     + pos.0 as f32 / pos.1 as f32,
                 grp,
             );
-            // println!(
-            //     "{} {} {} {}",
-            //     pos.0,
-            //     pos.1,
-            //     f.0,
-            //     match quad {
-            //         Quadrant::TopRight => 0,
-            //         Quadrant::BotRight => 1,
-            //         Quadrant::BotLeft => 2,
-            //         Quadrant::TopLeft => 3,
-            //     }
-            // );
             f
         })
         .collect();
@@ -151,6 +139,5 @@ pub fn solve(input: String) -> Solution {
     Solution {
         first: most.to_string(),
         second: (sight_lines[rot].1[0].0 * 100 + sight_lines[rot].1[0].1).to_string(),
-        // second: String::from("incomplete"),
     }
 }
