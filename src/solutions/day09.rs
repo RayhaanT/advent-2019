@@ -61,7 +61,7 @@ fn execute(memory: &mut HashMap<usize, i64>, the_input: i64) -> i64 {
             1 => add(memory, addr, mode, rel_base),
             2 => mul(memory, addr, mode, rel_base),
             3 => input(memory, addr, mode, rel_base, the_input),
-            4 => output(memory, addr, mode, &mut out, rel_base),
+            4 => output(memory, addr, mode, &mut out, rel_base, false),
             5 => jump_if_true(memory, addr, mode, rel_base),
             6 => jump_if_false(memory, addr, mode, rel_base),
             7 => less_than(memory, addr, mode, rel_base),
@@ -123,9 +123,12 @@ pub fn output(
     mode: usize,
     out: &mut i64,
     rel_base: usize,
+    mute: bool,
 ) -> usize {
     *out = mode_val(mem, addr, mode, 1, rel_base);
-    println!("{}", out);
+    if !mute {
+        println!("{}", out);
+    }
     addr + 2
 }
 
