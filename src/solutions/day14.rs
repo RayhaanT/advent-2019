@@ -32,21 +32,22 @@ pub fn solve(input: String) -> Solution {
 
     let mut targets: HashMap<&str, u32> = HashMap::new();
     targets.insert("FUEL", 1);
-    let mut inventory: HashMap<&str, u32> = HashMap::new();
+    let mut inventory: HashMap<&str, i32> = HashMap::new();
     while targets.len() > 0 {
-        // dbg!(targets.clone());
-        // dbg!(sources.clone());
-        let mut name = "";
+        let name: &str;
+
         {
-            let this_target = { targets.iter().nth(0).unwrap() };
+            let this_target = targets.iter().nth(0).unwrap();
             name = *this_target.0;
             let mut needed = *this_target.1 as i32;
             if inventory.contains_key(name) {
-                needed -= *inventory.get(name).unwrap() as i32;
-                if needed >= 0 {
+                let stash = *inventory.get(name).unwrap();
+                needed -= stash;
+                *inventory.get_mut(name).unwrap() = -needed;
+                if *inventory.get(name).unwrap() <= 0 {
                     inventory.remove(name);
-                } else {
-                    *inventory.get_mut(name).unwrap() += (-needed) as u32;
+                }
+                if needed < 0 {
                     needed = 0;
                 }
             }
@@ -56,12 +57,12 @@ pub fn solve(input: String) -> Solution {
 
                 let num_reactions =
                     needed as u32 / inputs.1 + if needed as u32 % inputs.1 == 0 { 0 } else { 1 };
-                let mut leftover = inputs.1 - (needed as u32 & inputs.1);
+                let mut leftover = inputs.1 - (needed as u32 % inputs.1);
                 if leftover == inputs.1 {
                     leftover = 0;
                 }
                 if leftover != 0 {
-                    *inventory.entry(this_target.0).or_insert(0) += leftover;
+                    *inventory.entry(this_target.0).or_insert(0) += leftover as i32;
                 }
 
                 for (id, count) in &inputs.0 {
