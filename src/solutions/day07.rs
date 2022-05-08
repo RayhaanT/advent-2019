@@ -24,7 +24,7 @@ fn execute(memory: &mut Vec<i32>, phase: i32, amp: i32, pc: &usize) -> (i32, usi
                 },
             ),
             4 => {
-                day05::output(memory, addr, mode, &mut out);
+                day05::output(memory, addr, mode, &mut out, true);
                 return (out, addr + 2, false);
             }
             5 => day05::jump_if_true(memory, addr, mode),

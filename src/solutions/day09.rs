@@ -74,7 +74,7 @@ fn execute(memory: &mut HashMap<usize, i64>, the_input: i64) -> i64 {
     out
 }
 
-pub fn solve(input: String) -> Solution {
+pub fn parse_program(input: String) -> HashMap<usize, i64> {
     let program: Vec<i64> = input
         .split(",")
         .map(|s| s.parse::<i64>().unwrap())
@@ -84,6 +84,11 @@ pub fn solve(input: String) -> Solution {
     for (ind, val) in program.iter().enumerate() {
         memory.insert(ind, *val);
     }
+    memory
+}
+
+pub fn solve(input: String) -> Solution {
+    let memory = parse_program(input);
 
     Solution {
         first: execute(&mut memory.clone(), 1).to_string(),

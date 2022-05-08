@@ -46,9 +46,11 @@ pub fn input(mem: &mut Vec<i32>, addr: usize, the_input: i32) -> usize {
     addr + 2
 }
 
-pub fn output(mem: &mut Vec<i32>, addr: usize, mode: usize, out: &mut i32) -> usize {
+pub fn output(mem: &mut Vec<i32>, addr: usize, mode: usize, out: &mut i32, mute: bool) -> usize {
     *out = mode_val(&mem, addr, mode, 1);
-    println!("{}", out);
+    if !mute {
+        println!("{}", out);
+    }
     addr + 2
 }
 
@@ -97,7 +99,7 @@ fn execute(memory: &mut Vec<i32>, the_input: i32) -> i32 {
             1 => add(memory, addr, mode),
             2 => mul(memory, addr, mode),
             3 => input(memory, addr, the_input),
-            4 => output(memory, addr, mode, &mut out),
+            4 => output(memory, addr, mode, &mut out, false),
             5 => jump_if_true(memory, addr, mode),
             6 => jump_if_false(memory, addr, mode),
             7 => less_than(memory, addr, mode),
